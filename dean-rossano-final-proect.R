@@ -49,3 +49,40 @@ unemploy_rate <-  unemploy_rate %>% filter(State!="AK"& State!="HI") %>%
              Totalunemployed=sum(Unemployed),
              Meanrate=mean(`Unemployment Rate`,rm.na=TRUE)
   )
+# check the amount of states again
+length(unique(unemploy_rate $State))
+# returns 48
+
+# change State column name to STSUSPS and filter to years from 2007 to 2014
+unemploy_rate <- unemploy_rate %>% 
+  rename("STUSPS"="State") %>% 
+  filter(Year %in% c(2007:2014))
+
+## process the crime rate data
+
+#check the amount of states
+length(unique(crime_rate$jurisdiction))
+
+# returns 51
+head(crime_rate)
+
+
+# change the column names and filter out FEDERAL, ALASKA & HAWAII
+crime_rate <-  crime_rate %>% 
+  rename("STUSPS"="jurisdiction") %>% 
+  rename("Year"="year") %>% 
+  filter(STUSPS!="FEDERAL"& STUSPS!="ALASKA"& STUSPS!="HAWAII") %>% #library(stringr)
+  filter(Year %in% c(2007:2014))
+
+##Recheck the data
+length(unique(crime_rate$STUSPS))
+
+head(crime_rate)
+
+# change the state names in the state column "STUSPS"
+crime_rate$STUSPS <- state.abb[match(str_to_title(crime_rate$STUSPS),state.name)]
+# calculate the crimerate
+crime_rate <-crime_rate %>% 
+  mutate(crime_rate=(violent_crime_total/state_population)*100000) %>% 
+  dplyr::mutate_if(is.numeric, round, 1)
+
