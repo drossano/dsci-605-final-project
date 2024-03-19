@@ -12,15 +12,25 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r cars}
 # load packages
 library(tidyverse)
+library(plotly)
 library(sf)
 # load data
 data = read_rds("cstates_uerates_crates_combined.rds")
 
-filtered_data <- filter(data, NAME ==  "Illinois" | NAME == "California" | NAME == "Idaho" | NAME == "Indiana")
+filtered_data <- filter(data, NAME ==  "Illinois" | NAME == "California" | 
+                          NAME == "Idaho" | NAME == "Indiana")
 
-unemployment_plot = ggplot(filtered_data, aes(x=Year, y = Unemplyrate, color = NAME)) +
-  geom_point() +
-  geom_line()
+unemployment_plot <-  plot_ly(filtered_data, x = ~Year, y = ~Unemplyrate, 
+                              color = ~NAME) %>% 
+                              add_lines()
+
+    
+unemployment_plot<- unemployment_plot %>% layout(title = 'Unemployment Rate over Time',
+
+         xaxis = list(title = 'Year'),
+
+         yaxis = list (title = 'Unemployment Rate'))
+
 
 unemployment_plot
 ```
