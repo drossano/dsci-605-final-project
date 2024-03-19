@@ -15,12 +15,12 @@ library(tidyverse)
 library(plotly)
 library(sf)
 # load data
-data = read_rds("cstates_uerates_crates_combined.rds")
+data = read_rds("state_crime_unemp.rds")
 
 filtered_data <- filter(data, NAME ==  "Illinois" | NAME == "California" | 
                           NAME == "Idaho" | NAME == "Indiana")
 
-unemployment_plot <-  plot_ly(filtered_data, x = ~Year, y = ~Unemplyrate, 
+unemployment_plot <-  plot_ly(filtered_data, x = ~Year, y = ~unemp_rate, 
                               color = ~NAME) %>% 
                               add_lines()
 
@@ -47,7 +47,7 @@ crime_plot<- crime_plot %>% layout(title = 'Crime Rate over Time',
 
 crime_plot
 
-crime_vs_unemployment_plot <- plot_ly(filtered_data, x = ~Unemplyrate, y = ~crime_rate, color = ~NAME) %>% 
+crime_vs_unemployment_plot <- plot_ly(filtered_data, x = ~crime_rate, y = ~unemp_rate, color = ~NAME) %>% 
   add_markers()
 
 crime_vs_unemployment_plot
