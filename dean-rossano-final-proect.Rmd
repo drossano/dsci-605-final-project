@@ -33,4 +33,17 @@ unemployment_plot<- unemployment_plot %>% layout(title = 'Unemployment Rate over
 
 
 unemployment_plot
+
+crime_plot <-  plot_ly(filtered_data, x = ~Year, y = ~crime_rate, 
+                              color = ~NAME) %>% 
+                              add_lines()
+
+crime_plot<- crime_plot %>% layout(title = 'Crime Rate over Time',
+
+         xaxis = list(title = 'Year'),
+
+         yaxis = list (title = 'Crime Rate'))
+
+
+crime_plot
 ```
