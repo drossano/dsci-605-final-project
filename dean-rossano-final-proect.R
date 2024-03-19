@@ -5,7 +5,7 @@ library(raster)          #raster()
 library(sf)              #st_read()
 library(ggspatial)       #annotation_scale,annotation_north_arrow
 library(ggnewscale)      #new_scale_color() 
-library(ggsn)            #scalebar()
+# library(ggsn)            #scalebar()
 library(shiny)           #Shiny app
 library(plotly)          #plot_ly()
 library(gridExtra)       #grid.arrange()
@@ -47,7 +47,7 @@ unemploy_rate <-  unemploy_rate %>% filter(State!="AK"& State!="HI") %>%
    summarise(Totalforce=sum(`Labor Force`),
              Totalemployed=sum(Employed),
              Totalunemployed=sum(Unemployed),
-             Meanrate=mean(`Unemployment Rate`,rm.na=TRUE)
+             unemp_rate=mean(`Unemployment Rate`,rm.na=TRUE)
   )
 # check the amount of states again
 length(unique(unemploy_rate $State))
@@ -83,6 +83,17 @@ head(crime_rate)
 crime_rate$STUSPS <- state.abb[match(str_to_title(crime_rate$STUSPS),state.name)]
 # calculate the crimerate
 crime_rate <-crime_rate %>% 
-  mutate(crime_rate=(violent_crime_total/state_population)*100000) %>% 
+  mutate(crime_rate=(violent_crime_total/state_population)*100) %>% 
   dplyr::mutate_if(is.numeric, round, 1)
 
+# join state data with unemployment data
+state_unemp = right_join(contiguous_states, unemploy_rate, by = c("STUSPS"))
+
+# join crime data with unemployment/state data
+state_crime_unemp = right_join(state_unemp,crime_rate,by = c("Year", "STUSPS"))
+
+# select columns
+state_crime_unemp = state_crime_unemp[c("REGION","STUSPS","NAME","Year","unemp_rate","crime_rate")]
+
+# export data
+saveRDS(state_crime_unemp, "~/cs-masters/2024/spring/dsci-605/dsci-605-final-project/state_crime_unemp.rds")
