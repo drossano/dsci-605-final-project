@@ -63,12 +63,11 @@ crime_vs_unemployment_plot
 # plot spatial unemployment map
 unemp_map = ggplot() +
   geom_sf(data=data_2014,aes(fill=(unemp_rate)))+
-  scale_fill_viridis(option = "D")+
+  scale_fill_viridis_c(name = "Unemployment Rate", option = "F")+
   annotation_scale(location = "bl")+   #0.002, upper,and 0.05 lower
   annotation_north_arrow(location = "br", which_north = "true", 
                          style = north_arrow_fancy_orienteering) +
-  guides(fill=guide_legend(title="Unemployment Rate in 2014"))+
-  xlab("Longitude") + ylab("Latitude") +
+    xlab("Longitude") + ylab("Latitude") +
   ggtitle("Unemployment Rate Map Over Contiguous US") 
 
 unemp_map
@@ -76,11 +75,11 @@ unemp_map
 # plot spatial crime map
 crime_map = ggplot() +
   geom_sf(data=data_2014,aes(fill=crime_rate))+
-  scale_fill_viridis()+
+  scale_fill_viridis_c(name = "Crime Rate", option = "F")+
   annotation_scale(location = "bl")+   #0.002, upper,and 0.05 lower
   annotation_north_arrow(location = "br", which_north = "true", 
                          style = north_arrow_fancy_orienteering) +
-  guides(fill=guide_legend(title="Crime Rate in 2014"))+
+  #guides(fill=guide_legend(title="Crime Rate in 2014"))+
   xlab("Longitude") + ylab("Latitude") +
   ggtitle("Crime Rate Map Over Contiguous US") 
 
