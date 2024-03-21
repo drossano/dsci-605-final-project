@@ -83,8 +83,7 @@ head(crime_rate)
 crime_rate$STUSPS <- state.abb[match(str_to_title(crime_rate$STUSPS),state.name)]
 # calculate the crimerate
 crime_rate <-crime_rate %>% 
-  mutate(crime_rate=(violent_crime_total/state_population)* 100) %>% 
-  dplyr::mutate_if(is.numeric, round, 1)
+  mutate(crime_rate=(violent_crime_total/state_population)* 100)
 
 # join state data with unemployment data
 state_unemp = right_join(contiguous_states, unemploy_rate, by = c("STUSPS"))
