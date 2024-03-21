@@ -50,7 +50,7 @@ crime_plot
 data_2014 = filter(data, Year == 2014)
 
 #plot crime vs unemployment scatter plot
-crime_vs_unemployment_plot <- plot_ly(filtered_data, x = ~crime_rate, y = ~unemp_rate, color = ~NAME) %>% 
+crime_vs_unemployment_plot <- plot_ly(data_2014, x = ~crime_rate, y = ~unemp_rate, color = ~NAME) %>% 
   add_markers()
 
 crime_vs_unemployment_plot <- crime_vs_unemployment_plot %>% layout(title = 'Crime Rate over Time',
